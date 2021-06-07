@@ -296,48 +296,95 @@ async search(){
     this.isusersfollowersselected=false;
     this.isusersfollowingselected=false;
     this.showblog=false;
+    this.showresults=false;
     this.showsearchbar=true;
   }
   async set_selected_follower(i:number){
-
+    this.goselectedback();
     this.selecteduser=this.selectedfollowerslist[i];
     
+    this.index=i;
+    this.showresults=false;
+    this.selectedfollowerslist=[];
+    this.selectedfollowinglist=[];
+    this.searchblogs=[];
+    this.followcol="green";
+    this.followstatus="follow";
+    console.log("searchreulst is ",this.searchResults," ",i);
     var data=await this.http.get<any>('http://localhost:8080/usersByName?user='+this.selecteduser).toPromise();
     this.selectedprofile=data[0];
+    this.imageurl=data[0].image;
 
+
+    console.log(this.selecteduser," is the user selected");
     data=await this.http.get<any>("http://localhost:8080/getfollow?user="+this.selecteduser).toPromise();
+    console.log("data is ",data[0]);
     this.selectedcountfollowers=data[0].followedby.length;
-      this.selectedcountfollowing=data[0].following.length;
-      for(var i=0;i<data[0].following.length;i++){
-        this.selectedfollowinglist.push(data[0].following[i]);
+    this.selectedcountfollowing=data[0].following.length;
+
+    for(var j=0;j<data[0].following.length;j++){
+        this.selectedfollowinglist.push(data[0].following[j]);
+        
       }
-      for(var i=0;i<data[0].followedby.length;i++){
-        this.selectedfollowerslist.push(data[0].followedby[i]);
+     for(var j=0;j<data[0].followedby.length;j++){
+        this.selectedfollowerslist.push(data[0].followedby[j]);
+        if(data[0].followedby[j]===localStorage.getItem("user")){
+          this.followstatus="unfollow";
+          this.followcol="red";
+        }
       }
-    this.searchName="";
-    this.goselectedback();
+
+    data=await this.http.get<any>("http://localhost:8080/blogs?user="+this.selecteduser).toPromise();
+    for(var j=0;j<data[0].blogs.length;j++){
+      this.searchblogs.push(data[0].blogs[j]);
+    }
+    this.isuserselected=true;
+    
     
 
   }
 
   async set_selected_following(i:number){
     
+    this.goselectedback();
     this.selecteduser=this.selectedfollowinglist[i];
+    
+    this.index=i;
+    this.showresults=false;
+    this.selectedfollowerslist=[];
+    this.selectedfollowinglist=[];
+    this.searchblogs=[];
+    this.followcol="green";
+    this.followstatus="follow";
+    console.log("searchreulst is ",this.searchResults," ",i);
     var data=await this.http.get<any>('http://localhost:8080/usersByName?user='+this.selecteduser).toPromise();
     this.selectedprofile=data[0];
+    this.imageurl=data[0].image;
 
+
+    console.log(this.selecteduser," is the user selected");
     data=await this.http.get<any>("http://localhost:8080/getfollow?user="+this.selecteduser).toPromise();
+    console.log("data is ",data[0]);
     this.selectedcountfollowers=data[0].followedby.length;
-      this.selectedcountfollowing=data[0].following.length;
+    this.selectedcountfollowing=data[0].following.length;
 
-      for(var i=0;i<data[0].following.length;i++){
-        this.selectedfollowinglist.push(data[0].following[i]);
+    for(var j=0;j<data[0].following.length;j++){
+        this.selectedfollowinglist.push(data[0].following[j]);
+        
       }
-      for(var i=0;i<data[0].followedby.length;i++){
-        this.selectedfollowerslist.push(data[0].followedby[i]);
+     for(var j=0;j<data[0].followedby.length;j++){
+        this.selectedfollowerslist.push(data[0].followedby[j]);
+        if(data[0].followedby[j]===localStorage.getItem("user")){
+          this.followstatus="unfollow";
+          this.followcol="red";
+        }
       }
-    this.searchName="";
-    this.goselectedback();
+
+    data=await this.http.get<any>("http://localhost:8080/blogs?user="+this.selecteduser).toPromise();
+    for(var j=0;j<data[0].blogs.length;j++){
+      this.searchblogs.push(data[0].blogs[j]);
+    }
+    this.isuserselected=true;
 
     
   }
