@@ -1,0 +1,243 @@
+<div style="position: relative;">
+    <button (click)="home()" [ngStyle]="{'background-color':this.homecol}" class="nav" ><h4>HOME</h4></button>
+    <button (click)="myblogs()" [ngStyle]="{'background-color':this.blogcol}" class='nav'><h4>MY BLOGS</h4></button>
+    <button (click)="search()" [ngStyle]="{'background-color':this.searchcol}" class="nav"><h4>SEARCH</h4></button>
+    <button (click)="myprofile()" [ngStyle]="{'background-color':this.profcol}" class="nav"><h4>MY PROFILE</h4></button>
+    <button (click)="logout()" style="background-color: white;" class="nav"><h4>LOGOUT</h4></button>
+</div>
+
+
+
+<!--HOME DIVSION-->
+<div *ngIf="this.onhome">
+    <div *ngIf="this.homedata.length==0">
+        <button class="click-button" (click)="search()">No blogs available,Click on me to follow users</button>
+    </div>
+    <div *ngIf="!this.homeblogshow">
+        <div class="empty"></div>
+        <table align="center">
+            <ng-container *ngFor="let blog of this.homedata; index as i">
+                <tr align="center" style="color:blue; font-weight: bold;">{{blog.user}}</tr>
+                <tr align="center" (click)="showhomeblog(i)"><td class="blog-data"><h2>{{blog.blog.slice(0,100)}}</h2></td></tr>
+                <div class="empty"></div>
+                
+                <div class="empty"></div>
+            </ng-container>
+        </table>
+    </div>
+    <div *ngIf="this.homeblogshow">
+        <div class="empty"></div>
+        <table align="center">
+            <tr style="color: blue;">
+                <td>Blog posted by : </td>
+                <td>{{this.homeblogauthor}}</td>
+            </tr>
+        </table>
+        <table align="center" width="50%">
+            <tr align="center" style="word-wrap: break-word;">
+                <td>{{this.homeblogdata}}</td>
+            </tr>
+        </table>
+        <div><button class="blog-button" (click)="gohome()">Back</button></div>
+    </div>
+</div>
+
+
+
+<!--BLOG DIVISION-->
+<div *ngIf="this.onblog">
+    <div><button class="blog-button" (click)="addblog()">Add Blog</button></div>
+    <div *ngIf="this.addb" class="blog-class">
+        <table>
+            <tr align="center"><textarea [(ngModel)]="this.current_blog" class="blogtext"></textarea></tr>
+            <tr align="center" paddingTop="20px"><button (click)="addnow()" class="addbutton">Post My Blog</button></tr>
+            <tr align="center" paddingTop="20px"><td><button (click)="canceladdblog()" class="addbutton" style="background-color: red;">Cancel</button></td></tr>
+        </table>
+    </div>
+    <div *ngIf="!this.addb" class="blog-second">
+        <table align="center" class="blog-table">
+            <ng-container *ngFor="let blog of this.blogs; index as i">
+                <tr align="center" (click)="editblog(i)"><td class="blog-data"><h2>{{blog.slice(0,100)}}</h2></td></tr>
+            </ng-container>
+       </table>
+
+    </div>
+</div>
+
+
+<!--SEARCH DIVISION-->
+<div *ngIf="this.onsearch">
+    <div *ngIf="this.showsearchbar">
+        <input type="text" [(ngModel)]="this.searchName" class="searchbar" placeholder="Search Users" (ngModelChange)="searchchanged()">
+    </div>
+    <div *ngIf="this.showresults">
+        
+        <h5 *ngIf="this.searchResults.length==0 && this.searchName.length>0" class="display">No Users found</h5>
+        <table align="center" class="search-table">
+            <ng-container *ngFor="let user of this.searchResults; index as i">
+                <tr align="center" (click)="selected_user(i)"><td class="search-row">{{user}}</td></tr>
+            </ng-container>
+       </table>
+    </div>
+
+    <div *ngIf="this.isuserselected && !this.isusersfollowingselected && !this.isusersfollowersselected &&!this.showblog">
+        <div class="empty"></div>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/768px-User_icon_2.svg.png" class="icon">
+        <table align="center">
+            <tr>
+                <td>User Name:</td>
+                <td>{{this.selectedprofile.name}}</td>
+            </tr>
+            <tr>
+                <td>Display Name:</td>
+                <td>{{this.selectedprofile.display_name}}</td>
+            </tr>
+        </table>
+        <div class="empty"></div>
+        <button class="update-button" (click)="changeFollowStatus()" [ngStyle]="{'background-color':this.followcol}">{{this.followstatus}}</button>
+        <div class="empty"></div>
+        <button class="update-button" (click)="getselectedfollowers()">Followers : {{this.selectedcountfollowers}}</button>
+        <div class="empty"></div>
+        <button class="update-button" (click)="getselectedfollowing()">Following: {{this.selectedcountfollowing}}</button>
+        <div class="empty"></div>
+        
+        <table align="center">
+            <tr align="center">
+                <td><h4>Blogs of {{this.selecteduser}} :</h4></td>
+            </tr>
+            <ng-container *ngFor="let blog of this.searchblogs; index as i">
+                <tr align="center" (click)="show_selected_blog(i)"><td class="search-row"><h4>{{blog.slice(0,100)}}</h4></td></tr>
+
+            </ng-container>
+        </table>
+    </div>
+
+    <div *ngIf="this.showblog">
+        <button class="update-button" (click)="goselectedback()">Back</button>
+        <div class="empty"></div>
+        <table align="center" width="50%">
+            <tr align="center" style="word-wrap: break-word;">
+                <td>{{this.blogdata}}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div *ngIf="this.isusersfollowersselected">
+        <button class="update-button" (click)="goselectedback()">Back</button>
+        <div class="empty"></div>
+        <table align="center">
+            <tr><td><h3>Following List of {{this.selecteduser}}:</h3></td></tr>
+            <ng-container *ngFor="let user of this.selectedfollowerslist; index as i">
+                <tr align="center" (click)="set_selected_follower(i)"><td class="search-row">{{user}}</td></tr>
+            </ng-container>
+        </table>
+    </div>
+    <div *ngIf="this.isusersfollowingselected">
+        <button class="update-button" (click)="goselectedback()">Back</button>
+        <div class="empty"></div>
+        <table align="center">
+            <tr><td><h3>Following List of {{this.selecteduser}}:</h3></td></tr>
+            <ng-container *ngFor="let user of this.selectedfollowinglist; index as i">
+                <tr align="center" (click)="set_selected_following(i)"><td class="search-row">{{user}}</td></tr>
+            </ng-container>
+        </table>
+    </div>
+</div>
+
+
+
+
+<!--MY PROFILE DIVISION-->
+<div *ngIf="this.onprofile">
+    <img src="./images/{{this.imageurl}}" class="icon">
+    <div class="profile-table" *ngIf="!this.editdata && !this.changepass && !this.following && !this.followers && !this.changephoto">
+        <table align="center">
+            <tr>
+                <td>User Name:</td>
+                <td>{{this.profile.name}}</td>
+            </tr>
+            <tr>
+                <td>Display Name:</td>
+                <td>{{this.profile.display_name}}</td>
+            </tr>
+        </table>
+        <button class="update-button" (click)="getfollowers()">Followers : {{this.countfollowers}}</button>
+        <div class="empty"></div>
+        <button class="update-button" (click)="getfollowing()">Following: {{this.countfollowing}}</button>
+        <div class="empty"></div>
+        <button class="update-button" (click)="edit_details()">Edit Data</button>
+        <div class="empty"></div>
+        <button class="update-button" (click)="image_change()">Change Profile Pic</button>
+        <div class="empty"></div>
+        <button class="update-button" (click)="change_password()">Change Password</button>
+    </div>
+
+    <div *ngIf="this.changephoto">
+        <div class="empty"></div>
+            <table align="center">
+                <tr align="center">
+                    <td><input type="file" id="customFile" name="uploadedImage" (change)="onFileSelect($event)"></td>
+                </tr>
+                <tr align="center"><td><button (click)="onFormSubmit()">Change</button></td></tr>
+            </table>
+        <button class="update-button" (click)="goback()" style="background-color:red">Cancel</button>
+    </div>
+
+    <div *ngIf="this.editdata">
+        <table align="center">
+            <tr>
+                <td>Change Profile Photo:</td>
+                <td><input type="file" [(ngModel)]="this.new_profilePhoto"></td>
+            </tr>
+            <tr>
+                <td>User Name</td>
+                <td>{{this.profile.name}} can't be changed</td>
+            </tr>
+            <tr>
+                <td>Display Name</td>
+                <td><input type="text" [(ngModel)]="this.newname"></td>
+            </tr>
+        </table>
+        <button class="update-button" (click)="change_name()">Update</button>
+        <div class="empty"></div>
+        <button class="update-button" (click)="goback()" style="background-color:red">Cancel</button>    
+    </div>
+
+    <div *ngIf="this.changepass">
+        <table align="center">
+            <tr>
+                <td>Enter New Password</td>
+                <td><input type="text" [(ngModel)]="this.newpass"></td>
+            </tr>
+            <tr>
+                <td>Confirm new password</td>
+                <td><input type="text" [(ngModel)]="this.newcpass"></td>
+            </tr>
+        </table>
+        <button class="update-button" (click)="change_pass()">Change</button>
+        <div class="empty"></div>
+        <button class="update-button" (click)="goback()" style="background-color:red">Cancel</button>
+    </div>
+
+    <div *ngIf="this.following">
+        <button class="update-button" (click)="goback()">Back</button>
+        <div class="empty"></div>
+        <table align="center">
+            <tr><td><h3>Following List:</h3></td></tr>
+            <ng-container *ngFor="let user of this.followinglist; index as i">
+                <tr align="center" (click)="search_user_from_following(i)"><td class="search-row">{{user}}</td></tr>
+            </ng-container>
+        </table>
+    </div>
+
+    <div *ngIf="this.followers">
+        <button class="update-button" (click)="goback()">Back</button>
+        <div class="empty"></div>
+        <table align="center">
+            <tr><td><h3>Followers List:</h3></td></tr>
+            <ng-container *ngFor="let user of this.followerslist; index as i">
+                <tr align="center" (click)="search_user_from_followers(i)"><td class="search-row">{{user}}</td></tr>
+            </ng-container>
+        </table>
+    </div>
+</div>

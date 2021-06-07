@@ -1,0 +1,44 @@
+<div class="container" scroll="no">  
+    <div class="box">
+
+        <div *ngIf="!this.registerval">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/768px-User_icon_2.svg.png" alt="User icon" class="icon">
+    <table>
+        <tr class="trow">
+            <td>Enter Username</td>
+            <td><input type="text" [(ngModel)]="this.user" required></td>
+        </tr>
+        <tr class="trow">
+            <td>Enter Password</td>
+            <td><input type="text" [(ngModel)]="this.pass" required></td>
+        </tr>
+    </table>
+    <button (click)="login()" class="login-button">Login</button>
+    <div class="or">OR</div>
+    <button (click)="register()" class="register">Signup</button>
+    <a (click)="signInWithGoogle()"><img src="https://www.drupal.org/files/issues/2020-01-26/google_logo.png" class="icon"></a>
+    </div>
+
+    <div *ngIf="this.registerval">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/768px-User_icon_2.svg.png" alt="Register icon" class="icon">
+        <table>
+            <tr class="trow">
+                <td>Enter Username</td>
+                <td><input type="text" [(ngModel)]="this.user" required></td>
+            </tr>
+            <tr class="trow">
+                <td>Enter Password</td>
+                <td><input type="text" [(ngModel)]="this.pass" required></td>
+            </tr>
+            <tr class="trow">
+                <td>Confirm Password</td>
+                <td><input type="text" [(ngModel)]="this.cpass" required></td>
+            </tr>
+        </table>
+        <button  (click)="newregistration()" class="register">Register Me</button>
+        <button (click)="signin()" class="login-button">Signin</button>
+    </div>
+
+</div>
+
+</div>

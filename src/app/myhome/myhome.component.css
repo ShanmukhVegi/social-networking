@@ -1,0 +1,151 @@
+.nav{
+    position:relative;
+    height:5vh;
+    width:20%;
+    display:table-cell;
+    vertical-align: middle;
+}
+
+
+
+
+
+/*CSS FOR BLOG */
+
+.blog-button{
+    position:relative;
+    top:10px;
+    margin-left: 37%;
+    width:26%;
+    border-radius: 20px;
+    background-color: #0074d9;
+    color:white;
+    padding:10px;
+}
+
+.blogtext{
+    position:relative;
+    top:10px;
+    bottom:10px;
+    width:50vw;
+    height:15vw;
+
+}
+
+.blog-class{
+    position:absolute;
+    padding: 20px;
+    display: table-row;
+    margin-left: 25%;
+}
+
+
+.blog-table{
+    position:relative;
+    width:50%;
+    top:7px;
+    padding:10px;
+    border-collapse: separate;
+}
+.blog-data{
+    border: solid 1px #000;
+    border-radius: 20px;
+}
+
+.blog-data:hover{
+    cursor:pointer;
+}
+.addbutton{
+    position:relative;
+    top:10px;
+    margin-left: auto;
+    width:16%;
+    border-radius: 20px;
+    background-color: #0074d9;
+    color:white;
+    padding:10px;
+}
+
+.blog-second{
+    position: relative;
+    top:10px;
+}
+
+
+
+/*CSS FOR SEARCH*/
+.searchbar{
+    position:relative;
+    width:70%;
+    height:40px;
+    margin-left: 15%;
+    background-color: beige;
+    border: 1px solid #000;
+    top:20px;
+    text-align: center;
+}
+.search-table{
+    position:absolute;
+    width:70%;
+    margin-left:15%;
+    top:101px;
+    border-collapse: separate;
+}
+.search-row{
+    border: 1px solid #000;
+    background-color: beige;
+
+}
+.search-row:hover{
+    cursor:pointer;
+}
+.display{
+
+    position:relative;
+    top:15px;
+    text-align: center;
+    font-size: 15px;
+}
+
+
+
+/*CSS FOR MY PROFILE*/
+.icon{
+    position: relative;
+    height:20%;
+    width:20%;
+    margin-left:40%;
+    margin-top:10px;
+}
+
+.update-button{
+    position:relative;
+    top:10px;
+    margin-left: 42%;
+    width:16%;
+    border-radius: 20px;
+    background-color: #0074d9;
+    color:white;
+    padding:10px;
+}
+
+.empty{
+    position:relative;
+    margin-top:10px;
+}
+
+
+
+
+
+
+.click-button{
+    position:relative;
+    top:10px;
+    margin-left: 30%;
+    width:40%;
+    border-radius: 20px;
+    background-color: #0074d9;
+    color:white;
+    padding:10px;
+}
