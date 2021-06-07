@@ -191,7 +191,7 @@ var storage = multer.diskStorage({
 
     // Setting directory on disk to save uploaded files
     destination: function (req, file, cb) {
-        cb(null, 'images')
+        cb(null, 'src/assets/images')
     },
 
     // Setting name of file saved
@@ -228,7 +228,7 @@ app.post('/uploadfile', upload.single('uploadedImage'), (req, res) => {
         console.log("RESULT IS ",result);
         if(result[0].image!=="defaulticon.png"){
             const fs = require('fs')
-            const path = 'images/'+result[0].image;
+            const path = 'src/assets/images/'+result[0].image;
             fs.unlink(path, (err) => {
                 if (err) {console.error(err)}})
         }
