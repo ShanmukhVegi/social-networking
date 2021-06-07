@@ -208,7 +208,7 @@ async search(){
     //getting all the users
     var data=await this.http.get<any>('http://localhost:8080/users').toPromise();
     for(var i=0;i<data.length;i++){
-      this.users.push(data[i].name);
+      if(data[i].name!==localStorage.getItem("user")){ this.users.push(data[i].name);}
     }
 
     console.log("the users are ",this.users);
@@ -224,6 +224,7 @@ async search(){
     console.log("search changed to ",this.searchName);
     this.searchResults=[];
     this.searchblogs=[];
+    this.imageurl="defaulticon.png";
     if(this.searchName==""){return;}
     for(var i=0;i<this.users.length;i++){
       if(this.users[i]==this.searchName){
@@ -251,6 +252,7 @@ async search(){
     console.log("searchreulst is ",this.searchResults," ",i);
     var data=await this.http.get<any>('http://localhost:8080/usersByName?user='+this.selecteduser).toPromise();
     this.selectedprofile=data[0];
+    this.imageurl=data[0].image;
 
 
     console.log(this.selecteduser," is the user selected");
@@ -299,6 +301,7 @@ async search(){
   async set_selected_follower(i:number){
 
     this.selecteduser=this.selectedfollowerslist[i];
+    
     var data=await this.http.get<any>('http://localhost:8080/usersByName?user='+this.selecteduser).toPromise();
     this.selectedprofile=data[0];
 
