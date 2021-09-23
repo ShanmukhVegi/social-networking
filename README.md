@@ -1,3 +1,16 @@
+# Steps to run the App
+
+1)create a database named "Networking" in the MongoDB (make sure it is running on port 27017)
+
+2)create 3 collection: "users", "blogs", "follow" in the networking database
+
+3)Run the server.js file using the command line: "nodemon server.js"
+
+4)Run the angular project using the command line: "ng serve --o"
+
+5)Now the app would have started successfully
+
+
 # Networking
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.3.
